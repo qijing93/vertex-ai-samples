@@ -278,6 +278,8 @@ def process_and_execute_notebooks(
                 "Running notebooks in parallel, so no logs will be displayed. Please wait..."
             )
             with concurrent.futures.ThreadPoolExecutor(max_workers=None) as executor:
+                print(f"Max workers: {executor._max_workers}")
+
                 notebook_execution_results = list(
                     executor.map(
                         functools.partial(
