@@ -34,5 +34,4 @@ steps:
     - 'IS_TESTING=1'
 timeout: 86400s
 options:
-  pool:
-    name: ${_PRIVATE_POOL_NAME}
+  machineType: E2_HIGHCPU_32
