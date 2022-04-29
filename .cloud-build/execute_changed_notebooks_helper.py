@@ -17,6 +17,7 @@ import concurrent
 import dataclasses
 import datetime
 import functools
+from ratemate import RateLimit
 import os
 import pathlib
 import nbformat
@@ -103,6 +104,9 @@ def _create_tag(filepath: str) -> str:
     return tag
 
 
+rate_limit = RateLimit(max_count=50, per=60, greedy=True)
+
+
 def process_and_execute_notebook(
     container_uri: str,
     staging_bucket: str,
@@ -113,6 +117,8 @@ def process_and_execute_notebook(
     notebook: str,
     should_get_tail_logs: bool = False,
 ) -> NotebookExecutionResult:
+    rate_limit.wait()  # wait before creating the task
+
     print(f"Running notebook: {notebook}")
 
     # Create paths
